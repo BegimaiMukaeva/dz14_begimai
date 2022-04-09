@@ -1,17 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import store from "./store";
+import * as actions from "./action";
+import { bindActionCreators } from "redux";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const { dispatch } = store;
+const { inc, dec, rnd } = bindActionCreators(actions, dispatch);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+const counterDisplay = document.getElementById('counter-display');
+const incrementButton = document.getElementById('inc');
+const decrementButton = document.getElementById('dec');
+const randomButton = document.getElementById('rnd');
+
+
+incrementButton.addEventListener('click', inc)
+decrementButton.addEventListener('click', dec)
+randomButton.addEventListener('click', rnd)
+
+store.subscribe(() =>{
+    counterDisplay.value = store.getState()
+})
